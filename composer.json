@@ -1,0 +1,20 @@
+{
+  "name": "automater/rest-php-sdk",
+  "description": "PHP SDK for Automater REST API",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Automater sp. z o.o.",
+      "email": "kontakt@automater.pl"
+    }
+  ],
+  "autoload": {
+    "psr-4": {"AutomaterSDK\\": "src/"}
+  },
+  "require": {
+    "php": ">=5.5",
+    "guzzlehttp/guzzle": "6.3.0",
+    "doctrine/collections": "v1.5.0"
+  }
+}
