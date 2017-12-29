@@ -1,5 +1,5 @@
 {
-  "name": "automater/rest-php-sdk",
+  "name": "automater-pl/rest-php-sdk",
   "description": "PHP SDK for Automater REST API",
   "minimum-stability": "stable",
   "license": "proprietary",
