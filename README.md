@@ -15,6 +15,6 @@ or add this depenedency by running:
 composer require automater/rest-php-sdk:^0.1
 ```
 ### Examples
-1. [List products from Automater account](#)
-2. [Create new transaction](#)
-3. [Post payment for transaction](#)
+1. [List products from Automater account](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/ListProducts.php)
+2. [Create new transaction](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/NewTransaction.php)
+3. [Post payment for transaction](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/PostPayment.php)
