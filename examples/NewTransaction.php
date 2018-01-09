@@ -19,6 +19,11 @@ $transactionProduct = new \AutomaterSDK\Request\Entity\TransactionProduct();
 $transactionProduct->setId(1234); // product ID
 $transactionProduct->setQuantity(3); // quantity of product
 
+// Optionally: set product price and currency
+// If not passed those values will be taken from product settings
+$transactionProduct->setPrice(10.00);
+$transactionProduct->setCurrency('USD');
+
 $transactionRequest->setProducts([
     $transactionProduct
 ]);
