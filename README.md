@@ -18,3 +18,4 @@ composer require automater-pl/rest-php-sdk:^0.1
 1. [List products from Automater account](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/ListProducts.php)
 2. [Create new transaction](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/NewTransaction.php)
 3. [Post payment for transaction](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/PostPayment.php)
+4. [Get product details](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/GetProductDetails.php)
