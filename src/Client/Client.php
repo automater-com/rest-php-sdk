@@ -8,7 +8,9 @@ use AutomaterSDK\Exception\UnauthorizedException;
 use AutomaterSDK\Request\PaymentRequest;
 use AutomaterSDK\Request\ProductsRequest;
 use AutomaterSDK\Request\TransactionRequest;
+use AutomaterSDK\Response\Entity\Product;
 use AutomaterSDK\Response\PaymentResponse;
+use AutomaterSDK\Response\ProductDetailsResponse;
 use AutomaterSDK\Response\ProductsResponse;
 use AutomaterSDK\Response\TransactionResponse;
 use GuzzleHttp\Exception\RequestException;
@@ -59,6 +61,27 @@ class Client
         $response = $this->_handleSyncRequest($request);
 
         return ProductsResponse::create($response);
+    }
+
+    /**
+     * Get product details from Automater.
+     *
+     * @param int $productId
+     * @return Product
+     * @throws ApiException
+     * @throws UnauthorizedException
+     * @throws NotFoundException
+     * @throws TooManyRequestsException
+     */
+    public function getProductDetails($productId)
+    {
+        $uri = new Uri('products/' . $productId . '.json');
+
+        $request = new Request('GET', $uri);
+
+        $response = $this->_handleSyncRequest($request);
+
+        return Product::create($response['product']);
     }
 
     /**
