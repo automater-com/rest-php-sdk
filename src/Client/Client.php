@@ -10,12 +10,10 @@ use AutomaterSDK\Request\ProductsRequest;
 use AutomaterSDK\Request\TransactionRequest;
 use AutomaterSDK\Response\Entity\Product;
 use AutomaterSDK\Response\PaymentResponse;
-use AutomaterSDK\Response\ProductDetailsResponse;
 use AutomaterSDK\Response\ProductsResponse;
 use AutomaterSDK\Response\TransactionResponse;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Uri;
+use GuzzleHttp\Message\Request;
 
 class Client
 {
@@ -34,7 +32,7 @@ class Client
 
         $this->_guzzle = new \GuzzleHttp\Client([
             'timeout' => 30,
-            'base_uri' => 'https://automater.pl/rest/api/',
+            'base_url' => 'https://automater.pl/rest/api/',
             'headers' => [
                 'X-Api-Key' => $apiKey
             ]
@@ -53,10 +51,9 @@ class Client
      */
     public function getProducts(ProductsRequest $productsRequest)
     {
-        $uri = new Uri('products.json');
-        $uri = $uri->withQuery($productsRequest->toQueryString());
-
-        $request = new Request('GET', $uri);
+        $request = $this->_guzzle->createRequest('GET', 'products.json', [
+            'query' => $productsRequest->toQueryString()
+        ]);
 
         $response = $this->_handleSyncRequest($request);
 
@@ -75,9 +72,7 @@ class Client
      */
     public function getProductDetails($productId)
     {
-        $uri = new Uri('products/' . $productId . '.json');
-
-        $request = new Request('GET', $uri);
+        $request = $this->_guzzle->createRequest('GET', 'products/' . $productId . '.json');
 
         $response = $this->_handleSyncRequest($request);
 
@@ -96,10 +91,13 @@ class Client
      */
     public function createTransaction(TransactionRequest $transactionRequest)
     {
-        $request = new Request('POST', 'transactions.json', [
-            'Content-Type' => 'application/x-www-form-urlencoded',
-            'X-Api-Sign' => $transactionRequest->getSignature($this->apiSecret)
-        ], $transactionRequest->toQueryString());
+        $request = $this->_guzzle->createRequest('POST', 'transactions.json', [
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'X-Api-Sign' => $transactionRequest->getSignature($this->apiSecret)
+            ],
+            'body' => $transactionRequest->toQueryString()
+        ]);
 
         $response = $this->_handleSyncRequest($request);
 
@@ -119,10 +117,13 @@ class Client
      */
     public function postPayment($cartId, PaymentRequest $paymentRequest)
     {
-        $request = new Request('POST', 'transactions/' . $cartId . '/payment.json', [
-            'Content-Type' => 'application/x-www-form-urlencoded',
-            'X-Api-Sign' => $paymentRequest->getSignature($this->apiSecret)
-        ], $paymentRequest->toQueryString());
+        $request = $this->_guzzle->createRequest('POST', 'transactions/' . $cartId . '/payment.json', [
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'X-Api-Sign' => $paymentRequest->getSignature($this->apiSecret)
+            ],
+            'body' => $paymentRequest->toQueryString()
+        ]);
 
         $response = $this->_handleSyncRequest($request);
 
