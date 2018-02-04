@@ -52,7 +52,7 @@ class Client
     public function getProducts(ProductsRequest $productsRequest)
     {
         $request = $this->_guzzle->createRequest('GET', 'products.json', [
-            'query' => $productsRequest->toQueryString()
+            'query' => $productsRequest->toArray()
         ]);
 
         $response = $this->_handleSyncRequest($request);
@@ -96,7 +96,7 @@ class Client
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'X-Api-Sign' => $transactionRequest->getSignature($this->apiSecret)
             ],
-            'body' => $transactionRequest->toQueryString()
+            'body' => $transactionRequest->toArray()
         ]);
 
         $response = $this->_handleSyncRequest($request);
@@ -122,7 +122,7 @@ class Client
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'X-Api-Sign' => $paymentRequest->getSignature($this->apiSecret)
             ],
-            'body' => $paymentRequest->toQueryString()
+            'body' => $paymentRequest->toArray()
         ]);
 
         $response = $this->_handleSyncRequest($request);
