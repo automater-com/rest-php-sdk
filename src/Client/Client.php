@@ -31,10 +31,12 @@ class Client
         $this->apiSecret = $apiSecret;
 
         $this->_guzzle = new \GuzzleHttp\Client([
-            'timeout' => 30,
             'base_url' => 'https://automater.pl/rest/api/',
-            'headers' => [
-                'X-Api-Key' => $apiKey
+            'defaults' => [
+                'timeout' => 30,
+                'headers' => [
+                    'X-Api-Key' => $apiKey
+                ]
             ]
         ]);
     }
