@@ -14,7 +14,6 @@
   },
   "require": {
     "php": ">=5.5",
-    "guzzlehttp/guzzle": "6.3.0",
     "doctrine/collections": "v1.4.0"
   }
 }
