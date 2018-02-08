@@ -98,7 +98,7 @@ class Client
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'X-Api-Sign' => $transactionRequest->getSignature($this->apiSecret)
             ],
-            'body' => $transactionRequest->toArray()
+            'body' => $transactionRequest->toQueryString()
         ]);
 
         $response = $this->_handleSyncRequest($request);
@@ -124,7 +124,7 @@ class Client
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'X-Api-Sign' => $paymentRequest->getSignature($this->apiSecret)
             ],
-            'body' => $paymentRequest->toArray()
+            'body' => $paymentRequest->toQueryString()
         ]);
 
         $response = $this->_handleSyncRequest($request);
