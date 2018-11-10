@@ -5,9 +5,15 @@ use AutomaterSDK\Exception\ApiException;
 use AutomaterSDK\Exception\NotFoundException;
 use AutomaterSDK\Exception\TooManyRequestsException;
 use AutomaterSDK\Exception\UnauthorizedException;
+use AutomaterSDK\Request\AddCodesRequest;
+use AutomaterSDK\Request\CreateDatabaseRequest;
+use AutomaterSDK\Request\DatabasesRequest;
 use AutomaterSDK\Request\PaymentRequest;
 use AutomaterSDK\Request\ProductsRequest;
 use AutomaterSDK\Request\TransactionRequest;
+use AutomaterSDK\Response\AddCodesResponse;
+use AutomaterSDK\Response\CreateDatabaseResponse;
+use AutomaterSDK\Response\DatabasesResponse;
 use AutomaterSDK\Response\Entity\Product;
 use AutomaterSDK\Response\PaymentResponse;
 use AutomaterSDK\Response\ProductDetailsResponse;
@@ -82,6 +88,73 @@ class Client
         $response = $this->_handleSyncRequest($request);
 
         return Product::create($response['product']);
+    }
+
+    /**
+     * Create new database.
+     *
+     * @param CreateDatabaseRequest $createDatabaseRequest
+     * @return CreateDatabaseResponse
+     * @throws ApiException
+     * @throws UnauthorizedException
+     * @throws NotFoundException
+     * @throws TooManyRequestsException
+     */
+    public function createDatabase(CreateDatabaseRequest $createDatabaseRequest)
+    {
+        $request = new Request('POST', 'databases.json', [
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'X-Api-Sign' => $createDatabaseRequest->getSignature($this->apiSecret)
+        ], $createDatabaseRequest->toQueryString());
+
+        $response = $this->_handleSyncRequest($request);
+
+        return CreateDatabaseResponse::create($response);
+    }
+
+    /**
+     * Get databases from Automater.
+     *
+     * @param DatabasesRequest $databasesRequest
+     * @return DatabasesResponse
+     * @throws ApiException
+     * @throws UnauthorizedException
+     * @throws NotFoundException
+     * @throws TooManyRequestsException
+     */
+    public function getDatabases(DatabasesRequest $databasesRequest)
+    {
+        $uri = new Uri('databases.json');
+        $uri = $uri->withQuery($databasesRequest->toQueryString());
+
+        $request = new Request('GET', $uri);
+
+        $response = $this->_handleSyncRequest($request);
+
+        return DatabasesResponse::create($response);
+    }
+
+    /**
+     * Add codes to database.
+     *
+     * @param int $databaseId
+     * @param AddCodesRequest $addCodesRequest
+     * @return AddCodesResponse
+     * @throws ApiException
+     * @throws UnauthorizedException
+     * @throws NotFoundException
+     * @throws TooManyRequestsException
+     */
+    public function addCodes($databaseId, AddCodesRequest $addCodesRequest)
+    {
+        $request = new Request('POST', 'codes/' . $databaseId . '.json', [
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'X-Api-Sign' => $addCodesRequest->getSignature($this->apiSecret)
+        ], $addCodesRequest->toQueryString());
+
+        $response = $this->_handleSyncRequest($request);
+
+        return AddCodesResponse::create($response);
     }
 
     /**
@@ -183,7 +256,7 @@ class Client
                 throw new TooManyRequestsException($json['message']);
             case 500:
                 $json = json_decode($response, true);
-                throw new ApiException($json['code'], $json['message']);
+                throw new ApiException($json['code'], $json['message'], isset($json['validation']) ? $json['validation'] : []);
                 break;
         }
 

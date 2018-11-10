@@ -26,7 +26,7 @@ abstract class BaseRequest
                         continue;
                     }
 
-                    $result[Camelizer::decamelize($key)][$childKey] = $value;
+                    $result[Camelizer::decamelize($key)][$childKey] = $childValue;
                 }
 
                 continue;

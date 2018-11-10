@@ -37,6 +37,7 @@ try {
 } catch (\AutomaterSDK\Exception\NotFoundException $exception) {
     die('Not found - invalid params');
 } catch (\AutomaterSDK\Exception\ApiException $exception) {
+    var_dump($exception->getValidationErrors());
     die($exception->getMessage());
 }
 

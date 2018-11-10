@@ -3,9 +3,29 @@ namespace AutomaterSDK\Exception;
 
 class ApiException extends \Exception
 {
-    public function __construct($code, $message)
+    protected $validationErrors = [];
+
+    public function __construct($code, $message, $validationErrors = [])
     {
-        parent::__construct("Automater exception (" . $code . "): " . $message, 500, null);
+        $this->setValidationErrors($validationErrors);
+        $message = sprintf("Automater exception (%s): %s", $code, $message);
+        parent::__construct($message, 500, null);
+    }
+
+    /**
+     * @return array
+     */
+    public function getValidationErrors()
+    {
+        return $this->validationErrors;
+    }
+
+    /**
+     * @param array $validation
+     */
+    public function setValidationErrors($validation)
+    {
+        $this->validationErrors = $validation;
     }
 
 }

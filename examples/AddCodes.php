@@ -3,17 +3,18 @@ include_once '../vendor/autoload.php';
 
 $client = new \AutomaterSDK\Client\Client('YOUR_API_KEY', 'YOUR_API_SECRET');
 
-$paymentRequest = new \AutomaterSDK\Request\PaymentRequest();
-$paymentRequest->setPaymentId('TEST-PAYMENT');
-$paymentRequest->setCurrency('EUR');
-$paymentRequest->setAmount(100);
-$paymentRequest->setDescription('TEST API SDK');
-$paymentRequest->setCustom('PAYMENT FROM API');
+// ID of database to which you'd like to add codes
+$databaseId = 1234;
 
-$cartId = 1234;
+$addCodesRequest = new \AutomaterSDK\Request\AddCodesRequest();
+$addCodesRequest->setCodes([
+    "code_1",
+    "code_2",
+    "code_3"
+]);
 
 try {
-    $paymentResponse = $client->postPayment($cartId, $paymentRequest);
+    $addCodesResponse = $client->addCodes($databaseId, $addCodesRequest);
 } catch (\AutomaterSDK\Exception\UnauthorizedException $exception) {
     die('Invalid API key or API secret');
 } catch (\AutomaterSDK\Exception\TooManyRequestsException $exception) {
@@ -25,7 +26,5 @@ try {
     die($exception->getMessage());
 }
 
-echo 'Cart ID: ' . $paymentResponse->getCartId() . '<br>';
-echo 'Currency: ' . $paymentResponse->getCurrency() . '<br>';
-echo 'Amount: ' . $paymentResponse->getAmount() . '<br>';
-echo 'Payment ID: ' . $paymentResponse->getPaymentId() . '<br>';
+echo 'Codes added to database with ID: ' . $addCodesResponse->getDatabaseId() . '<br>';
+echo 'Added count: ' . $addCodesResponse->getAddedCount() . '<br>';

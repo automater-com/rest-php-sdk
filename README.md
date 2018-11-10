@@ -19,3 +19,6 @@ composer require automater-pl/rest-php-sdk:^0.1
 2. [Create new transaction](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/NewTransaction.php)
 3. [Post payment for transaction](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/PostPayment.php)
 4. [Get product details](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/GetProductDetails.php)
+5. [List databases from Automater account](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/ListDatabases.php)
+6. [Create new database](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/CreateDatabase.php)
+7. [Add codes to database](https://github.com/automater-pl/rest-php-sdk/blob/master/examples/AddCodes.php)
