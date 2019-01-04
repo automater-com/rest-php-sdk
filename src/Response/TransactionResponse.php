@@ -8,6 +8,7 @@ class TransactionResponse extends BaseResponse
     protected $paymentUrl;
     protected $orderAmount;
     protected $orderCurrency;
+    protected $statusUrl;
 
     /**
      * @return mixed
@@ -87,6 +88,22 @@ class TransactionResponse extends BaseResponse
     public function setOrderCurrency($orderCurrency)
     {
         $this->orderCurrency = $orderCurrency;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatusUrl()
+    {
+        return $this->statusUrl;
+    }
+
+    /**
+     * @param mixed $statusUrl
+     */
+    public function setStatusUrl($statusUrl)
+    {
+        $this->statusUrl = $statusUrl;
     }
 
 

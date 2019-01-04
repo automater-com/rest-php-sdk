@@ -46,3 +46,4 @@ echo 'Payment URL: ' . $transactionResponse->getPaymentUrl() . '<br>';
 echo 'Created at: ' . $transactionResponse->getCreatedAt() . '<br>';
 echo 'Currency: ' . $transactionResponse->getOrderCurrency() . '<br>';
 echo 'Amount: ' . $transactionResponse->getOrderAmount() . '<br>';
+echo 'Status URL: ' . $transactionResponse->getStatusUrl() . '<br>';
