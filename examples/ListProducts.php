@@ -32,6 +32,7 @@ foreach ($productsResponse->getData() as $product) {
     echo 'Product ID: ' . $product->getId() . '<br>';
     echo 'Status: ' . $product->getStatus() . '<br>';
     echo 'Price: ' . $product->getPrice() . '<br>';
+    echo 'External offer ID: ' . $product->getExtOfferId() . '<br>';
     echo 'Currency: ' . $product->getCurrency() . '<br>';
     echo 'Name: ' . $product->getName() . '<br>';
     echo 'Description: ' . $product->getDescription() . '<br>';

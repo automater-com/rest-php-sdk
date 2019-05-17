@@ -13,6 +13,7 @@ class Product extends BaseEntity
     protected $id;
     protected $type;
     protected $name;
+    protected $extOfferId;
     protected $url;
     protected $description;
     protected $price;
@@ -179,6 +180,22 @@ class Product extends BaseEntity
     public function setDatabaseId($databaseId)
     {
         $this->databaseId = $databaseId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtOfferId()
+    {
+        return $this->extOfferId;
+    }
+
+    /**
+     * @param mixed $extOfferId
+     */
+    public function setExtOfferId($extOfferId)
+    {
+        $this->extOfferId = $extOfferId;
     }
 
 }
