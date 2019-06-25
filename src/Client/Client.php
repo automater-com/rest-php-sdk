@@ -6,12 +6,14 @@ use AutomaterSDK\Exception\NotFoundException;
 use AutomaterSDK\Exception\TooManyRequestsException;
 use AutomaterSDK\Exception\UnauthorizedException;
 use AutomaterSDK\Request\AddCodesRequest;
+use AutomaterSDK\Request\AddNoteToTransactionRequest;
 use AutomaterSDK\Request\CreateDatabaseRequest;
 use AutomaterSDK\Request\DatabasesRequest;
 use AutomaterSDK\Request\PaymentRequest;
 use AutomaterSDK\Request\ProductsRequest;
 use AutomaterSDK\Request\TransactionRequest;
 use AutomaterSDK\Response\AddCodesResponse;
+use AutomaterSDK\Response\AddNoteToTransactionResponse;
 use AutomaterSDK\Response\CreateDatabaseResponse;
 use AutomaterSDK\Response\DatabasesResponse;
 use AutomaterSDK\Response\Entity\Product;
@@ -200,6 +202,29 @@ class Client
         $response = $this->_handleSyncRequest($request);
 
         return PaymentResponse::create($response);
+    }
+
+    /**
+     * Add note to transaction registry.
+     *
+     * @param int $transactionId
+     * @param AddNoteToTransactionRequest $addNoteToTransactionRequest
+     * @return AddNoteToTransactionResponse
+     * @throws ApiException
+     * @throws UnauthorizedException
+     * @throws NotFoundException
+     * @throws TooManyRequestsException
+     */
+    public function addNoteToTransaction($transactionId, AddNoteToTransactionRequest $addNoteToTransactionRequest)
+    {
+        $request = new Request('POST', 'transactions/' . $transactionId . '/note.json', [
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'X-Api-Sign' => $addNoteToTransactionRequest->getSignature($this->apiSecret)
+        ], $addNoteToTransactionRequest->toQueryString());
+
+        $response = $this->_handleSyncRequest($request);
+
+        return AddNoteToTransactionResponse::create($response);
     }
 
     /**
