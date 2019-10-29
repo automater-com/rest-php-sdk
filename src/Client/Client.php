@@ -12,15 +12,18 @@ use AutomaterSDK\Request\DatabasesRequest;
 use AutomaterSDK\Request\PaymentRequest;
 use AutomaterSDK\Request\ProductsRequest;
 use AutomaterSDK\Request\TransactionRequest;
+use AutomaterSDK\Request\UploadFileRequest;
 use AutomaterSDK\Response\AddCodesResponse;
 use AutomaterSDK\Response\AddNoteToTransactionResponse;
 use AutomaterSDK\Response\CreateDatabaseResponse;
+use AutomaterSDK\Response\DatabaseResponse;
 use AutomaterSDK\Response\DatabasesResponse;
 use AutomaterSDK\Response\Entity\Product;
 use AutomaterSDK\Response\PaymentResponse;
 use AutomaterSDK\Response\ProductDetailsResponse;
 use AutomaterSDK\Response\ProductsResponse;
 use AutomaterSDK\Response\TransactionResponse;
+use AutomaterSDK\Response\UploadFileResponse;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
@@ -137,6 +140,27 @@ class Client
     }
 
     /**
+     * Get database from Automater.
+     *
+     * @param int $databaseId
+     * @return DatabaseResponse
+     * @throws ApiException
+     * @throws UnauthorizedException
+     * @throws NotFoundException
+     * @throws TooManyRequestsException
+     */
+    public function getDatabase($databaseId)
+    {
+        $uri = new Uri('databases/' . $databaseId . '.json');
+
+        $request = new Request('GET', $uri);
+
+        $response = $this->_handleSyncRequest($request);
+
+        return DatabaseResponse::create($response);
+    }
+
+    /**
      * Add codes to database.
      *
      * @param int $databaseId
@@ -157,6 +181,29 @@ class Client
         $response = $this->_handleSyncRequest($request);
 
         return AddCodesResponse::create($response);
+    }
+
+    /**
+     * Upload file to database.
+     *
+     * @param int $databaseId
+     * @param UploadFileRequest $uploadFileRequest
+     * @return UploadFileResponse
+     * @throws ApiException
+     * @throws UnauthorizedException
+     * @throws NotFoundException
+     * @throws TooManyRequestsException
+     */
+    public function uploadFile($databaseId, UploadFileRequest $uploadFileRequest)
+    {
+        $request = new Request('POST', 'files/' . $databaseId . '.json', [
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'X-Api-Sign' => $uploadFileRequest->getSignature($this->apiSecret)
+        ], $uploadFileRequest->toQueryString());
+
+        $response = $this->_handleSyncRequest($request);
+
+        return UploadFileResponse::create($response);
     }
 
     /**
