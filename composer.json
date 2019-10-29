@@ -1,6 +1,6 @@
 {
   "name": "automater-pl/rest-php-sdk",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "PHP SDK for Automater REST API",
   "minimum-stability": "stable",
   "license": "proprietary",
